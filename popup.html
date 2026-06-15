@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Translate</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 9h16" />
+          <path d="M16 5l4 4-4 4" />
+          <path d="M20 15H4" />
+          <path d="M8 11l-4 4 4 4" />
+        </svg>
+      </div>
+      <h1>Open Translate</h1>
+    </header>
+
+    <main class="content">
+      <!-- Provider Selection -->
+      <div class="input-group">
+        <label for="provider-select">Провайдер API</label>
+        <select id="provider-select">
+          <option value="google" selected>Google AI Studio</option>
+          <option value="openrouter">OpenRouter</option>
+          <option value="groq">Groq Cloud</option>
+          <option value="siliconflow">SiliconFlow</option>
+          <option value="sambanova">SambaNova Cloud</option>
+          <option value="ollama">Ollama (Локальный на ПК)</option>
+        </select>
+      </div>
+
+      <!-- API Key Section -->
+      <div class="input-group">
+        <label for="api-key">API Ключ</label>
+        <div class="input-wrapper">
+          <input type="password" id="api-key" placeholder="Введите ключ API..." autocomplete="off">
+          <button id="toggle-key-visibility" class="icon-btn" type="button" title="Показать/скрыть">
+            <svg class="eye-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </button>
+        </div>
+        <span class="help-text" id="api-key-help"></span>
+      </div>
+
+      <!-- Model Selection -->
+      <div class="input-group" id="model-select-group">
+        <label for="model-select">Модель ИИ</label>
+        <select id="model-select">
+          <!-- Dynamically filled by popup.js -->
+        </select>
+      </div>
+
+      <!-- Custom Model Input (shows when 'custom' is selected) -->
+      <div class="input-group" id="custom-model-group" style="display: none;">
+        <label for="custom-model-input">ID модели (OpenRouter / Google)</label>
+        <input type="text" id="custom-model-input" placeholder="например, mistralai/mistral-7b-instruct:free" autocomplete="off">
+      </div>
+
+      <!-- Language Selection -->
+      <div class="input-group">
+        <label for="target-lang">Язык перевода</label>
+        <select id="target-lang">
+          <option value="ru" selected>Русский (Russian)</option>
+          <option value="en">Английский (English)</option>
+          <option value="es">Испанский (Spanish)</option>
+          <option value="de">Немецкий (German)</option>
+          <option value="fr">Французский (French)</option>
+          <option value="zh">Китайский (Chinese)</option>
+          <option value="ja">Японский (Japanese)</option>
+          <option value="it">Итальянский (Italian)</option>
+          <option value="pt">Португальский (Portuguese)</option>
+          <option value="ko">Корейский (Korean)</option>
+        </select>
+      </div>
+
+      <!-- Mode Selector -->
+      <div class="input-group">
+        <label>Режим перевода</label>
+        <div class="mode-selector">
+          <label class="mode-option">
+            <input type="radio" name="translation-mode" value="replace" checked>
+            <span class="mode-card">
+              <span class="mode-title">Заменить</span>
+              <span class="mode-desc">Оригинал</span>
+            </span>
+          </label>
+          <label class="mode-option">
+            <input type="radio" name="translation-mode" value="insert">
+            <span class="mode-card">
+              <span class="mode-title">Рядом</span>
+              <span class="mode-desc">Оригинал + перевод</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Style Settings (shows when 'insert' is active) -->
+      <div id="style-settings-group" class="style-settings-group">
+        <div class="style-row">
+          <div class="input-group">
+            <label for="inline-color">Цвет перевода</label>
+            <select id="inline-color">
+              <option value="#6b7280" selected>Серый</option>
+              <option value="#3b82f6">Синий</option>
+              <option value="#8b5cf6">Фиолетовый</option>
+              <option value="#10b981">Зеленый</option>
+              <option value="#ef4444">Красный</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="inline-underline">Линия</label>
+            <select id="inline-underline">
+              <option value="none" selected>Нет</option>
+              <option value="solid">Сплошная</option>
+              <option value="dashed">Пунктир</option>
+              <option value="wavy">Волнистая</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Action Buttons -->
+      <div class="actions">
+        <button id="translate-btn" class="btn btn-primary">Перевести страницу</button>
+        <button id="restore-btn" class="btn btn-secondary">Сбросить перевод</button>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="status" id="status-bar">
+        <span class="status-dot"></span>
+        <span class="status-text" id="status-text">Готов к работе</span>
+      </div>
+      <div class="hotkeys">
+        <div class="hotkey-item">
+          <span>Перевод:</span>
+          <kbd>Ctrl+Shift+Y</kbd>
+        </div>
+        <div class="hotkey-item">
+          <span>Сброс:</span>
+          <kbd>Ctrl+Shift+U</kbd>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

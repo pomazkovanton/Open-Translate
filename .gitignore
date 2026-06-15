@@ -1,0 +1,16 @@
+# OS metadata files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Node/npm files
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Local developer/scratch files
+.env
+*.local
+scratch/

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Translate Test Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1 {
+      border-bottom: 2px solid #eaecef;
+      padding-bottom: 10px;
+      color: #0366d6;
+    }
+    .box {
+      background-color: #f6f8fa;
+      border: 1px solid #d1d5da;
+      padding: 15px;
+      border-radius: 6px;
+      margin: 20px 0;
+    }
+    .ignored {
+      background-color: #ffeef0;
+      border: 1px solid #f97583;
+    }
+    code {
+      font-family: monospace;
+      background-color: rgba(27,31,35,.05);
+      padding: .2em .4em;
+      border-radius: 3px;
+    }
+    pre {
+      background-color: #f6f8fa;
+      padding: 16px;
+      border-radius: 6px;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Open Translate Extension Test Page</h1>
+  <p>This page contains various types of text elements to test the translation functionality of your new Chrome Extension.</p>
+
+  <div class="box">
+    <h2>Section 1: Standard Text</h2>
+    <p>Artificial intelligence is intelligence demonstrated by machines, as opposed to the natural intelligence displayed by animals including humans.</p>
+    <p>Leading AI textbooks define the field as the study of <strong>"intelligent agents"</strong>: any system that perceives its environment and takes actions that maximize its chance of achieving its goals.</p>
+  </div>
+
+  <div class="box">
+    <h2>Section 2: Lists and Inline Styles</h2>
+    <ul>
+      <li>First item: Fast and lightweight models like <em>Gemini 2.5 Flash</em>.</li>
+      <li>Second item: High quality reasoning with <strong>Gemini 2.5 Pro</strong>.</li>
+      <li>Third item: Simple integration via Google AI Studio keys.</li>
+    </ul>
+  </div>
+
+  <div class="box ignored">
+    <h2>Section 3: Elements that should be IGNORED</h2>
+    <p>The code block below must not be translated:</p>
+    <pre><code>// This code comment should NOT be translated!
+function calculateSum(a, b) {
+  return a + b;
+}</code></pre>
+    
+    <p>Inline code: The term <code>const apiKey = "AzaSy..."</code> should remain exactly as written.</p>
+  </div>
+
+  <div class="box">
+    <h2>Section 4: Form Elements</h2>
+    <form onsubmit="return false;">
+      <label for="username">User Name:</label>
+      <input type="text" id="username" placeholder="Enter username here" value="John Doe">
+      <br><br>
+      <button type="submit">Submit Data</button>
+    </form>
+  </div>
+
+  <script>
+    console.log("This script content should NOT be translated!");
+  </script>
+</body>
+</html>
